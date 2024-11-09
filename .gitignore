@@ -1,0 +1,8 @@
+# Ignore IDE configuration files
+.idea/
+
+# Ignore pyenv Python version file
+.python-version
+
+# Ignore egg-info directories created by Python packaging tools
+*.egg-info/
