@@ -6,3 +6,6 @@
 
 # Ignore egg-info directories created by Python packaging tools
 *.egg-info/
+kiteplay.egg-info/
+kiteplay.egg-info/*
+kiteplay/__pycache__/
