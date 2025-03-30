@@ -1,11 +1,42 @@
-# Ignore IDE configuration files
+# Ignore IDE/editor config
 .idea/
+.vscode/
 
-# Ignore pyenv Python version file
+# Ignore Python virtual environments
+venv/
+.env/
+
+# Ignore Python version file
 .python-version
 
-# Ignore egg-info directories created by Python packaging tools
+# Ignore pyc and cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore Python packaging
 *.egg-info/
 kiteplay.egg-info/
-kiteplay.egg-info/*
+
+# Ignore Dagster runtime folders
+.tmp_dagster_home*/
+dagster_home/
+dagster_logs/
+
+# Ignore tutorial or sample data
+getting_started_etl_tutorial/
+*.csv
+*.json
+
+# Ignore generated files or outputs (optional — if you generate assets here)
+output/
+renders/
+assets/
+
+# Ignore config with secrets (optional)
+config/openai_config.yaml
+
+# Safe cleanup
 kiteplay/__pycache__/
+kiteplay.egg-info/*

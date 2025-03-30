@@ -6,4 +6,12 @@ all_assets = load_assets_from_modules([assets])
 
 defs = Definitions(
     assets=all_assets,
+    asset_checks=[],
+    resources={},
+    jobs={},
+    codeloaders={},
+    loggers={},
+    schedules={},
+    sensors={},
+    executors={}
 )
