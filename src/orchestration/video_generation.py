@@ -1,3 +1,5 @@
+import logging
+
 from dagster import Definitions, AssetExecutionContext, asset
 from pathlib import Path
 import yaml
@@ -37,7 +39,7 @@ def generate_visuals(generate_script: str) -> str:
     """
     Generates visual placeholders based on the script.
     """
-    return "visuals_generated.png"
+    return generate_script + "visuals_generated.png"
 
 # --- Asset 4: Generate voiceover from script ---
 @asset
@@ -45,7 +47,7 @@ def generate_voiceover(generate_script: str) -> str:
     """
     Generates voiceover placeholder from script.
     """
-    return "voiceover_generated.mp3"
+    return generate_script + "voiceover_generated.mp3"
 
 # --- Asset 5: Compose final video ---
 @asset
@@ -53,7 +55,9 @@ def compose_video(generate_voiceover: str, generate_visuals: str) -> str:
     """
     Combines voiceover and visuals into a video.
     """
-    return "final_video.mp4"
+    logging.info("Composing final video..." + generate_voiceover + generate_visuals + "final_video.mp4")
+    print("Composing final video..." + generate_voiceover + generate_visuals + "final_video.mp4")
+    return generate_voiceover + generate_visuals + "final_video.mp4"
 
 # --- Definitions ---
 defs = Definitions(
