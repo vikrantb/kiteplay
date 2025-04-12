@@ -1,0 +1,52 @@
+# ✅ Global reusable assets
+assets:
+  images:
+    - id: bg_meditation
+      description: "Person meditating in nature"
+    - id: sunrise_mountain
+      description: "Sunrise behind the Himalayas"
+
+  videos:
+    - id: waves_video
+      description: "Slow-motion waves hitting the beach"
+
+# ✅ Scenes — basic units that can be reused or sequenced
+scenes:
+  - id: scene_001
+    background: bg_meditation
+    background_type: image
+    type: narration
+    text: "Silence can be louder than words."
+    voiceover: "Silence can be louder than words."
+    duration: 5
+
+  - id: scene_002
+    background: waves_video
+    background_type: video
+    type: narration
+    text: "When you pause before reacting, you control the outcome."
+    voiceover: "When you pause before reacting, you control the outcome."
+
+  - id: scene_003
+    background: sunrise_mountain
+    background_type: image
+    type: visual_only
+    text: "Use the power of pause. It works."
+
+# ✅ Final video composition(s) using scenes
+videos:
+  - id: video_001
+    title: "The Power of Pause"
+    style: "calm, inspirational"
+    sequence:
+      - scene_001
+      - scene_002
+      - scene_003
+
+  - id: video_002
+    title: "The Calm Sequel"
+    style: "looping nature with only video"
+    sequence:
+      - scene_002
+      - scene_002
+      - scene_002

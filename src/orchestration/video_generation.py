@@ -4,13 +4,14 @@ from dagster import Definitions, AssetExecutionContext, asset
 from pathlib import Path
 import yaml
 
+
 # --- Asset 1: Load a concept plan from YAML ---
-@asset
+@asset(description="Load a concept plan from YAML file")
 def load_concept_plan(context: AssetExecutionContext) -> dict:
     """
     Loads a concept plan YAML file (e.g., a Chanakya Neeti principle) into a Python dictionary.
     """
-    plan_path = Path("plans/chanakya_saying_001.yml")
+    plan_path = Path("plans/video_plan_001.yml")
     if not plan_path.exists():
         raise FileNotFoundError(f"Concept plan not found: {plan_path}")
 
@@ -21,7 +22,7 @@ def load_concept_plan(context: AssetExecutionContext) -> dict:
     return data
 
 # --- Asset 2: Generate script from concept plan ---
-@asset
+@asset(description="Generate a script from the concept plan", deps=[load_concept_plan])
 def generate_script(load_concept_plan: dict) -> str:
     """
     Generates a script based on the concept plan.
@@ -58,14 +59,3 @@ def compose_video(generate_voiceover: str, generate_visuals: str) -> str:
     logging.info("Composing final video..." + generate_voiceover + generate_visuals + "final_video.mp4")
     print("Composing final video..." + generate_voiceover + generate_visuals + "final_video.mp4")
     return generate_voiceover + generate_visuals + "final_video.mp4"
-
-# --- Definitions ---
-defs = Definitions(
-    assets=[
-        load_concept_plan,
-        generate_script,
-        generate_visuals,
-        generate_voiceover,
-        compose_video,
-    ]
-)
