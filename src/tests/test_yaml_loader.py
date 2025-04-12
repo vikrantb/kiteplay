@@ -12,30 +12,30 @@ from utils.yaml_loader import load_video_plan_yaml
 from pathlib import Path
 
 
-def test_scene(scene):
+def validate_scene(scene):
     assert isinstance(scene, dict)
     assert "id" in scene
-    test_background(scene)
-    test_scene_audio(scene)
+    validate_background(scene)
+    validate_scene_audio(scene)
 
 
-def test_scene_audio(scene):
+def validate_scene_audio(scene):
     assert "voiceover" in scene or "text" in scene or "music" in scene
 
 
-def test_background(scene):
+def validate_background(scene):
     assert "background" in scene
     assert "background_type" in scene
 
 
-def test_scenes(plan, scenes):
+def validate_scenes(plan, scenes):
     if "scenes" in plan:
         for scene in plan["scenes"]:
-            test_scene(scene)
+            validate_scene(scene)
             scenes[scene["id"]] = scene
 
 
-def test_video(scenes, video):
+def validate_video(scenes, video):
     assert isinstance(video, dict)
     assert "id" in video
     assert "sequence" in video
@@ -44,9 +44,9 @@ def test_video(scenes, video):
         assert scene_id in scenes
 
 
-def test_videos(plan, scenes):
+def validate_videos(plan, scenes):
     for video in plan["videos"]:
-        test_video(scenes, video)
+        validate_video(scenes, video)
 
 
 # Test loading a video plan YAML file
@@ -55,10 +55,10 @@ def test_load_video_plan_yaml():
     plan = load_video_plan_yaml("test_plans/video_plan_001.yml")
     assert isinstance(plan, dict)
     scenes = {}
-    test_scenes(plan, scenes)
+    validate_scenes(plan, scenes)
 
     assert "videos" in plan
-    test_videos(plan, scenes)
+    validate_videos(plan, scenes)
 
     # Test loading a non-existent file
     try:
