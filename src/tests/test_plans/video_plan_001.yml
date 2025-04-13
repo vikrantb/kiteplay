@@ -1,15 +1,10 @@
 # ✅ Global reusable assets
-assets:
-  images:
-    - id: bg_meditation
-      description: "Person meditating in nature"
-    - id: sunrise_mountain
-      description: "Sunrise behind the Himalayas"
 
-  videos:
-    - id: waves_video
-      description: "Slow-motion waves hitting the beach"
-
+images:
+  - id: bg_meditation
+    description: "Person meditating in nature"
+  - id: sunrise_mountain
+    description: "Sunrise behind the Himalayas"
 # ✅ Scenes — basic units that can be reused or sequenced
 scenes:
   - id: scene_001
@@ -35,6 +30,8 @@ scenes:
 
 # ✅ Final video composition(s) using scenes
 videos:
+  - id: waves_video
+    description: "Slow-motion waves hitting the beach"
   - id: video_001
     title: "The Power of Pause"
     style: "calm, inspirational"
