@@ -1,12 +1,25 @@
-# ✅ Global reusable assets
-
 images:
   - id: bg_meditation
     description: "Person meditating in nature"
   - id: sunrise_mountain
     description: "Sunrise behind the Himalayas"
+  - id: waves_video
+    description: "Slow-motion waves hitting the beach"
+
+voiceovers:
+  - id: calm_intro
+    text: "Welcome to your moment of calm. Let us begin."
+
 # ✅ Scenes — basic units that can be reused or sequenced
 scenes:
+  - id: scene_000
+    background: bg_meditation
+    background_type: image
+    type: voiceover_only
+    voiceover_id: calm_intro
+    text: "Welcome to your moment of calm. Let us begin."
+    duration: 4
+
   - id: scene_001
     background: bg_meditation
     background_type: image
@@ -17,7 +30,7 @@ scenes:
 
   - id: scene_002
     background: waves_video
-    background_type: video
+    background_type: image
     type: narration
     text: "When you pause before reacting, you control the outcome."
     voiceover: "When you pause before reacting, you control the outcome."
@@ -30,12 +43,11 @@ scenes:
 
 # ✅ Final video composition(s) using scenes
 videos:
-  - id: waves_video
-    description: "Slow-motion waves hitting the beach"
   - id: video_001
     title: "The Power of Pause"
     style: "calm, inspirational"
     sequence:
+      - scene_000
       - scene_001
       - scene_002
       - scene_003

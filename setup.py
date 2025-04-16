@@ -14,6 +14,8 @@ setup(
         "pillow",  # Image processing
         "moviepy",  # Video processing
         "ffmpeg-python",  # Video editing and composition
+        "moviepy",  # Video editing
+        "imageio[ffmpeg]",  # Video I/O"
         "pydub",  # Audio processing
         "elevenlabs",  # AI voiceover
     ],
