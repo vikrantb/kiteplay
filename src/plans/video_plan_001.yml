@@ -1,52 +1,62 @@
-# ✅ Global reusable assets
-assets:
-  images:
-    - id: bg_meditation
-      description: "Person meditating in nature"
-    - id: sunrise_mountain
-      description: "Sunrise behind the Himalayas"
+images:
+  - id: bg_meditation
+    description: "Person meditating in nature"
+    creation_strategy:
+      prompt: "Create a peaceful early morning scene with a person sitting cross-legged in a meditative pose on a grassy hilltop, surrounded by mist and soft sunlight filtering through trees."
 
-  videos:
-    - id: waves_video
-      description: "Slow-motion waves hitting the beach"
+  - id: sunrise_mountain
+    description: "Beautiful sunrise over the mountains"
+    uri: "file:///Users/vikrantbhosale/kiteplay/artifacts/images/sunrise_mountain.jpg"
 
-# ✅ Scenes — basic units that can be reused or sequenced
 scenes:
   - id: scene_001
-    background: bg_meditation
-    background_type: image
-    type: narration
-    text: "Silence can be louder than words."
-    voiceover: "Silence can be louder than words."
-    duration: 5
+    description: "Scene with a thoughtful narration about silence"
+    creation_strategy:
+      background: bg_meditation
+      background_type: image
+      type: narration
+      text: "Silence can be louder than words. It allows for deep reflection and helps in controlling one's emotions during challenging moments."
+      voiceover: "Silence can be louder than words. It allows for deep reflection and helps in controlling one's emotions during challenging moments."
+      duration: 5
 
   - id: scene_002
-    background: waves_video
-    background_type: video
-    type: narration
-    text: "When you pause before reacting, you control the outcome."
-    voiceover: "When you pause before reacting, you control the outcome."
+    description: "Scene with beach waves and life advice"
+    creation_strategy:
+      background: waves_video
+      background_type: video
+      type: narration
+      text: "Pausing before reacting gives you the power to choose a more thoughtful response, enabling you to maintain calm even in high-pressure situations."
+      voiceover: "Pausing before reacting gives you the power to choose a more thoughtful response, enabling you to maintain calm even in high-pressure situations."
 
   - id: scene_003
-    background: sunrise_mountain
-    background_type: image
-    type: visual_only
-    text: "Use the power of pause. It works."
+    description: "Final scene to reinforce the key message visually"
+    creation_strategy:
+      background: sunrise_mountain
+      background_type: image
+      type: visual_only
+      text: "Embrace the power of pause. It proves effective in every aspect of life."
+      voiceover: "Embrace the power of pause. It proves effective in every aspect of life."
 
-# ✅ Final video composition(s) using scenes
 videos:
+  - id: waves_video
+    description: "Slow-motion waves hitting the beach with a calming effect"
+
   - id: video_001
-    title: "The Power of Pause"
-    style: "calm, inspirational"
-    sequence:
-      - scene_001
-      - scene_002
-      - scene_003
+    description: "Inspirational video using scenes to explain the power of pause"
+    creation_strategy:
+      title: "The Power of Pause"
+      style: "calm, inspirational"
+      sequence:
+        - scene_001
+        - scene_002
+        - scene_003
 
   - id: video_002
-    title: "The Calm Sequel"
-    style: "looping nature with only video"
-    sequence:
-      - scene_002
-      - scene_002
-      - scene_002
+    description: "Looped version emphasizing stillness through repetition"
+    creation_strategy:
+      title: "The Calm Sequel"
+      style: "looping nature with only video"
+      sequence:
+        - scene_002
+        - scene_002
+        - scene_002
