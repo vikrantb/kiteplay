@@ -40,3 +40,19 @@ config/openai_config.yaml
 # Safe cleanup
 kiteplay/__pycache__/
 kiteplay.egg-info/*
+# IDE and system-specific
+*.swp
+*.swo
+*.DS_Store
+*.log
+*.tmp
+*.bak
+
+# Test and coverage
+htmlcov/
+.coverage
+.tox/
+.nox/
+.cache/
+pytest_cache/
+coverage.xml
