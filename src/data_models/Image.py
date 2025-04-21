@@ -10,12 +10,14 @@ class Image(Asset):
         return []
 
     def validate(self, all_ids: Set[str]):
+        logging.info(f"Validating Image: {self.id}")
         if not self.uri and not self.creation_strategy:
             raise ValueError(f"Image '{self.id}' must have either a uri or a creation_strategy.")
 
         if self.creation_strategy:
             if "prompt" not in self.creation_strategy or not isinstance(self.creation_strategy["prompt"], str):
                 raise ValueError(f"Image '{self.id}' creation_strategy must include a non-empty 'prompt' string.")
+            logging.info(f"Image '{self.id}' prompt OK")
 
     @classmethod
     def load_from_plan(cls, plan: dict) -> List["Image"]:

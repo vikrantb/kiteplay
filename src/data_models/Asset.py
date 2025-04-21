@@ -18,7 +18,7 @@ class Asset(ABC):
         """Validate internal references (like dependencies) exist in provided ID set."""
         pass
 
-    def get_from_uri(self):
+    def get_ordered_assets_from_plan(self):
         """Retrieve the asset content from the URI if available."""
         if not self.uri:
             return None

@@ -1,5 +1,6 @@
 from typing import Optional, List, Set
 from data_models.Asset import Asset
+import logging
 
 class Scene(Asset):
     def __init__(self, id: str, description: str, uri: Optional[str] = None, creation_strategy: Optional[dict] = None):
@@ -17,6 +18,8 @@ class Scene(Asset):
         return deps
 
     def validate(self, all_ids: Set[str]):
+        logging.info(f"Validating Scene: {self.id}")
+
         if not self.uri and not self.creation_strategy:
             raise ValueError(f"Scene '{self.id}' must have either a uri or a creation_strategy.")
 
@@ -25,16 +28,22 @@ class Scene(Asset):
             raise ValueError(f"Scene '{self.id}' is missing 'background' in creation_strategy.")
         if bg not in all_ids:
             raise ValueError(f"Scene '{self.id}' references missing background '{bg}'")
+        logging.info(f"Scene '{self.id}' background OK: {bg}")
 
-        if self.creation_strategy.get("type") not in {"narration", "visual_only", "dialogue"}:
+        scene_type = self.creation_strategy.get("type")
+        if scene_type not in {"narration", "visual_only", "dialogue"}:
             raise ValueError(f"Scene '{self.id}' must specify a valid 'type' in creation_strategy.")
+        logging.info(f"Scene '{self.id}' type OK: {scene_type}")
 
         if "text" not in self.creation_strategy:
             raise ValueError(f"Scene '{self.id}' must include 'text' in creation_strategy.")
+        logging.info(f"Scene '{self.id}' text OK")
 
         vo = self.creation_strategy.get("voiceover")
-        if vo and vo not in all_ids:
-            raise ValueError(f"Scene '{self.id}' references missing voiceover '{vo}'")
+        if vo:
+            if vo not in all_ids:
+                raise ValueError(f"Scene '{self.id}' references missing voiceover '{vo}'")
+            logging.info(f"Scene '{self.id}' voiceover OK: {vo}")
 
     @classmethod
     def load_from_plan(cls, plan: dict) -> List["Scene"]:

@@ -8,6 +8,15 @@ images:
     description: "Beautiful sunrise over the mountains"
     uri: "file:///Users/vikrantbhosale/kiteplay/artifacts/images/sunrise_mountain.jpg"
 
+  - id: moonlit_valley
+    description: "Quiet valley under moonlight"
+    creation_strategy:
+      prompt: "Render a wide moonlit valley with mist between hills, faint stars overhead, and a soft ambient glow."
+
+  - id: waves_video
+    description: "Slow-motion waves hitting the beach with a calming effect"
+    uri: "file:///Users/vikrantbhosale/kiteplay/artifacts/images/waves_video.mp4"
+
 scenes:
   - id: scene_001
     description: "Scene with a thoughtful narration about silence"
@@ -37,10 +46,16 @@ scenes:
       text: "Embrace the power of pause. It proves effective in every aspect of life."
       voiceover: "Embrace the power of pause. It proves effective in every aspect of life."
 
-videos:
-  - id: waves_video
-    description: "Slow-motion waves hitting the beach with a calming effect"
+  - id: scene_004
+    description: "Reflective ending with valley visuals and echo of earlier message"
+    creation_strategy:
+      background: moonlit_valley
+      background_type: image
+      type: narration
+      text: "Like the waves that recede, our reactions too can settle into peace."
+      voiceover: "Like the waves that recede, our reactions too can settle into peace."
 
+videos:
   - id: video_001
     description: "Inspirational video using scenes to explain the power of pause"
     creation_strategy:

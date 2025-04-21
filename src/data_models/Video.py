@@ -13,16 +13,19 @@ class Video(Asset):
         return self.sequence or []
 
     def validate(self, all_ids: Set[str]):
+        logging.info(f"Validating Video: {self.id}")
         if not self.uri and not self.creation_strategy:
             raise ValueError(f"Video '{self.id}' must have either a uri or a creation_strategy.")
 
         sequence = self.creation_strategy.get("sequence")
         if not sequence or not isinstance(sequence, list):
             raise ValueError(f"Video '{self.id}' must include a valid 'sequence' list in creation_strategy.")
+        logging.info(f"Video '{self.id}' sequence OK: {sequence}")
 
         for scene_id in sequence:
             if scene_id not in all_ids:
                 raise ValueError(f"Video '{self.id}' references missing scene '{scene_id}'")
+            logging.info(f"Video '{self.id}' dependency OK: {scene_id}")
 
     @classmethod
     def load_from_plan(cls, plan: dict) -> List["Video"]:
