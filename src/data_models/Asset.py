@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Set, Optional
 import os
+import logging
 
 class Asset(ABC):
     def __init__(self, id: str, description: str, uri: Optional[str] = None):
@@ -30,5 +31,3 @@ class Asset(ABC):
         # Placeholder for future extensions: s3://, gs:// etc.
         raise NotImplementedError(f"URI scheme not supported or not implemented: {self.uri}")
 
-    def __repr__(self):
-        return f"{self.__class__.__name__}(id='{self.id}', description='{self.description}', uri='{self.uri}')"

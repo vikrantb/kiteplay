@@ -13,7 +13,7 @@ class Scene(Asset):
         if bg:
             deps.append(bg)
         vo = self.creation_strategy.get("voiceover")
-        if vo:
+        if vo and isinstance(vo, str) and " " not in vo:
             deps.append(vo)
         return deps
 
@@ -40,7 +40,7 @@ class Scene(Asset):
         logging.info(f"Scene '{self.id}' text OK")
 
         vo = self.creation_strategy.get("voiceover")
-        if vo:
+        if vo and isinstance(vo, str) and " " not in vo:
             if vo not in all_ids:
                 raise ValueError(f"Scene '{self.id}' references missing voiceover '{vo}'")
             logging.info(f"Scene '{self.id}' voiceover OK: {vo}")

@@ -1,5 +1,6 @@
 from typing import Optional, List, Set
 from data_models.Asset import Asset
+import logging
 
 class Video(Asset):
     def __init__(self, id: str, description: str, uri: Optional[str] = None, creation_strategy: Optional[dict] = None):

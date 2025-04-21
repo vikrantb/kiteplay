@@ -1,5 +1,6 @@
 from data_models.Asset import Asset
 from typing import List, Set, Optional
+import logging
 
 class Image(Asset):
     def __init__(self, id: str, description: str, uri: Optional[str] = None, creation_strategy: Optional[dict] = None):
@@ -7,6 +8,7 @@ class Image(Asset):
         self.creation_strategy = creation_strategy
 
     def dependencies(self) -> List[str]:
+        # Return an empty list unconditionally to avoid accidental dependency IDs from YAML values.
         return []
 
     def validate(self, all_ids: Set[str]):
@@ -28,6 +30,6 @@ class Image(Asset):
                 "description": image["description"],
                 "uri": image.get("uri")
             }
-            creation_strategy = {k: v for k, v in image.items() if k not in ["id", "description", "uri"]}
+            creation_strategy = image.get("creation_strategy", {})
             images.append(cls(**top_level, creation_strategy=creation_strategy))
         return images
