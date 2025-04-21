@@ -1,3 +1,17 @@
+voiceovers:
+  - id: calm_silence
+    description: "Narration about the power of silence"
+    text: "Silence can be louder than words. It allows for deep reflection and helps in controlling one's emotions during challenging moments."
+  - id: advice_on_reacting
+    description: "Advice about pausing before reacting"
+    text: "Pausing before reacting gives you the power to choose a more thoughtful response, enabling you to maintain calm even in high-pressure situations."
+  - id: power_of_pause
+    description: "Reinforcement about the power of pause"
+    text: "Embrace the power of pause. It proves effective in every aspect of life."
+  - id: reflection_peace
+    description: "Peaceful reflection voiceover"
+    text: "Like the waves that recede, our reactions too can settle into peace."
+
 images:
   - id: bg_meditation
     description: "Person meditating in nature"
@@ -25,7 +39,7 @@ scenes:
       background_type: image
       type: narration
       text: "Silence can be louder than words. It allows for deep reflection and helps in controlling one's emotions during challenging moments."
-      voiceover: "Silence can be louder than words. It allows for deep reflection and helps in controlling one's emotions during challenging moments."
+      voiceover: calm_silence
       duration: 5
 
   - id: scene_002
@@ -35,7 +49,7 @@ scenes:
       background_type: video
       type: narration
       text: "Pausing before reacting gives you the power to choose a more thoughtful response, enabling you to maintain calm even in high-pressure situations."
-      voiceover: "Pausing before reacting gives you the power to choose a more thoughtful response, enabling you to maintain calm even in high-pressure situations."
+      voiceover: advice_on_reacting
 
   - id: scene_003
     description: "Final scene to reinforce the key message visually"
@@ -44,7 +58,7 @@ scenes:
       background_type: image
       type: visual_only
       text: "Embrace the power of pause. It proves effective in every aspect of life."
-      voiceover: "Embrace the power of pause. It proves effective in every aspect of life."
+      voiceover: power_of_pause
 
   - id: scene_004
     description: "Reflective ending with valley visuals and echo of earlier message"
@@ -53,7 +67,7 @@ scenes:
       background_type: image
       type: narration
       text: "Like the waves that recede, our reactions too can settle into peace."
-      voiceover: "Like the waves that recede, our reactions too can settle into peace."
+      voiceover: reflection_peace
 
 videos:
   - id: video_001
