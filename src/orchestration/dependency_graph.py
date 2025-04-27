@@ -1,4 +1,6 @@
 from collections import defaultdict, deque
+from pprint import pprint
+
 from data_models.Image import Image
 from data_models.Scene import Scene
 from data_models.Video import Video
@@ -29,7 +31,7 @@ def build_dependency_graph(assets):
     in_degree = defaultdict(int)
 
     for asset in assets.values():
-        for dep in asset.dependencies():
+        for dep in set(asset.dependencies()):
             if dep not in assets:
                 raise ValueError(
                     f"{asset.__class__.__name__} '{asset.id}' references missing dependency '{dep}'"
@@ -41,44 +43,32 @@ def build_dependency_graph(assets):
     return graph, in_degree
 
 
-def perform_topological_sort(graph, in_degree, all_ids):
+def perform_topological_sort_using_kahns(graph, in_degree, all_ids):
     """
     Perform Kahn's algorithm to detect cycles and produce a topologically sorted list.
     Logs full graph and unresolved dependencies on failure.
     """
-    logging.debug("==== Dependency Graph Structure ====")
-    for node in sorted(graph):
-        logging.debug(f"{node} -> {sorted(graph[node])}")
-    logging.debug("==== In-degree Table ====")
-    for node in sorted(all_ids):
-        logging.debug(f"{node}: in-degree = {in_degree[node]}")
-
     queue = deque([node for node in all_ids if in_degree[node] == 0])
-    logging.debug(f"Initial nodes with zero in-degree: {list(queue)}")
     sorted_order = []
 
     while queue:
         node = queue.popleft()
-        logging.debug(f"Processing node: {node}")
         sorted_order.append(node)
+
         for neighbor in graph[node]:
             in_degree[neighbor] -= 1
-            logging.debug(f"Decremented in-degree of neighbor {neighbor} to {in_degree[neighbor]}")
             if in_degree[neighbor] == 0:
-                logging.debug(f"Neighbor {neighbor} now has zero in-degree, adding to queue")
                 queue.append(neighbor)
 
     if len(sorted_order) != len(all_ids):
-        unresolved = [node for node in all_ids if node not in sorted_order]
-        incoming_edges = {node: [] for node in unresolved}
-        for src, dsts in graph.items():
-            for node in unresolved:
-                if node in dsts:
-                    incoming_edges[node].append(src)
-        logging.error("Cycle detected in dependency graph.")
-        logging.error(f"Unresolved nodes: {unresolved}")
-        logging.error(f"Incoming edge map for unresolved nodes: {incoming_edges}")
-        raise ValueError("Cycle detected in dependency graph. Check logs for details.")
+        logging.error("Cycle detected or missing dependencies. Full graph:")
+        logging.error(pprint(graph))
+        logging.error("Unresolved nodes with in-degree:")
+        for node, degree in in_degree.items():
+            if degree > 0:
+                logging.error(f"{node}: {degree}")
+        raise ValueError("Cycle detected or unresolved dependencies exist.")
+
     return sorted_order
 
 
@@ -88,7 +78,7 @@ def get_ordered_assets_from_plan(plan):
     """
     assets = load_all_assets(plan)
     graph, in_degree = build_dependency_graph(assets)
-    sorted_ids = perform_topological_sort(graph, in_degree, assets.keys())
+    sorted_ids = perform_topological_sort_using_kahns(graph, in_degree, assets.keys())
     for asset in assets.values():
         asset.validate(set(assets.keys()))
     return [assets[i] for i in sorted_ids]
