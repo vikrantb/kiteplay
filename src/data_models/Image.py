@@ -7,7 +7,7 @@ class Image(Asset):
         super().__init__(id, description, uri)
         self.creation_strategy = creation_strategy
 
-    def dependencies(self) -> List[str]:
+    def get_dependencies(self) -> List[str]:
         # Return an empty list unconditionally to avoid accidental dependency IDs from YAML values.
         return []
 

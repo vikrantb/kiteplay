@@ -7,7 +7,7 @@ class Scene(Asset):
         super().__init__(id, description, uri)
         self.creation_strategy = creation_strategy or {}
 
-    def dependencies(self) -> List[str]:
+    def get_dependencies(self) -> List[str]:
         deps = []
         bg = self.creation_strategy.get("background")
         if bg:

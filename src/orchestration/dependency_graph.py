@@ -31,7 +31,7 @@ def build_dependency_graph(assets):
     in_degree = defaultdict(int)
 
     for asset in assets.values():
-        for dep in set(asset.dependencies()):
+        for dep in set(asset.get_dependencies()):
             if dep not in assets:
                 raise ValueError(
                     f"{asset.__class__.__name__} '{asset.id}' references missing dependency '{dep}'"

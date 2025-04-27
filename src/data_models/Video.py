@@ -10,7 +10,7 @@ class Video(Asset):
         self.title = self.creation_strategy.get("title")
         self.style = self.creation_strategy.get("style")
 
-    def dependencies(self) -> List[str]:
+    def get_dependencies(self) -> List[str]:
         return self.sequence or []
 
     def validate(self, all_ids: Set[str]):

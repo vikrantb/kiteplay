@@ -7,7 +7,7 @@ class Voiceover(Asset):
         super().__init__(id, description, uri)
         self.text = text
 
-    def dependencies(self) -> List[str]:
+    def get_dependencies(self) -> List[str]:
         return []
 
     def validate(self, all_ids: Set[str]):

@@ -10,7 +10,7 @@ class Asset(ABC):
         self.uri = uri
 
     @abstractmethod
-    def dependencies(self) -> List[str]:
+    def get_dependencies(self) -> List[str]:
         """Return a list of asset IDs this object depends on."""
         pass
 
