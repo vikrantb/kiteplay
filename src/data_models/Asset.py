@@ -31,3 +31,23 @@ class Asset(ABC):
         # Placeholder for future extensions: s3://, gs:// etc.
         raise NotImplementedError(f"URI scheme not supported or not implemented: {self.uri}")
 
+    def get_config(self) -> dict:
+        """Return system-level configuration for asset generation."""
+        return {}
+
+    def set_context(self, requirements: dict, config: dict):
+        """Set up context for generation; can be overridden by subclasses."""
+        self.requirements = requirements
+        self.config = config
+
+    def generate(self) -> str:
+        """Default generate behavior: retrieve content from filesystem if URI is available."""
+        if self.uri and self.uri.startswith("file://"):
+            path = self.uri.replace("file://", "")
+            if os.path.exists(path):
+                with open(path, "r") as f:
+                    return f.read()
+            else:
+                raise FileNotFoundError(f"Asset file not found: {path}")
+        raise NotImplementedError(f"Generate method not implemented for asset: {self.id}")
+

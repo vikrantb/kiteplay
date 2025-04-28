@@ -1,6 +1,7 @@
 from data_models.Asset import Asset
 from typing import Optional, List, Set
 import logging
+import os
 
 class Voiceover(Asset):
     def __init__(self, id: str, description: str, text: str, uri: Optional[str] = None):
@@ -25,6 +26,23 @@ class Voiceover(Asset):
         else:
             logging.error(f"Voiceover '{self.id}' must have either a uri or text.")
             raise ValueError(f"Voiceover '{self.id}' must have either a uri or text.")
+
+    def get_config(self) -> dict:
+        # return super().get_config()
+        return {"tool": "tts_engine"}
+
+    def set_context(self, requirements, config):
+        # return super().set_context(requirements, config)
+        self.requirements = requirements
+        self.config = config
+
+    def generate(self):
+        try:
+            # Try base class logic first (file system retrieval etc.)
+            return super().generate()
+        except (FileNotFoundError, NotImplementedError):
+            # If base class cannot generate, do Voiceover-specific generation
+            return f"Generated voiceover based on text: {self.text}"
 
     @classmethod
     def load_from_plan(cls, plan: dict) -> List["Voiceover"]:

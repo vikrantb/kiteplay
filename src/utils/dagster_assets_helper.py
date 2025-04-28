@@ -15,8 +15,11 @@ def create_dagster_assets_from_graph(ordered_assets):
                 "creation_strategy": getattr(asset_obj, "creation_strategy", None),
                 "text": getattr(asset_obj, "text", None),
             }
-            context.log.info(f"Preparing to generate {asset_id} with requirements: {requirements}")
-            return f"{asset_id}.generated"
+            config = asset_obj.get_config()
+            context.log.info(f"Preparing to generate {asset_id} with requirements: {requirements} and config: {config}")
+            asset_obj.set_context(requirements=requirements, config=config)
+            result = asset_obj.generate()
+            return result
 
         return dagster_asset
 

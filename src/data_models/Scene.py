@@ -1,6 +1,7 @@
 from typing import Optional, List, Set
 from data_models.Asset import Asset
 import logging
+import os
 
 class Scene(Asset):
     def __init__(self, id: str, description: str, uri: Optional[str] = None, creation_strategy: Optional[dict] = None):
@@ -44,6 +45,28 @@ class Scene(Asset):
             if vo not in all_ids:
                 raise ValueError(f"Scene '{self.id}' references missing voiceover '{vo}'")
             logging.info(f"Scene '{self.id}' voiceover OK: {vo}")
+
+    def get_config(self) -> dict:
+        # return super().get_config()
+        return {"tool": "scene_composer"}
+
+    def set_context(self, requirements, config):
+        # return super().set_context(requirements, config)
+        self.requirements = requirements
+        self.config = config
+
+    def generate(self):
+        # return super().generate()
+        if self.uri and self.uri.startswith("file://"):
+            path = self.uri.replace("file://", "")
+            if os.path.exists(path):
+                with open(path, "r") as f:
+                    return f.read()
+            else:
+                raise FileNotFoundError(f"Scene file not found: {path}")
+        else:
+            text = self.creation_strategy.get("text", "No text provided")
+            return f"Generated scene based on text: {text}"
 
     @classmethod
     def load_from_plan(cls, plan: dict) -> List["Scene"]:
