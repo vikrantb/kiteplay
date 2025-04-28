@@ -1,6 +1,7 @@
 from typing import Optional, List, Set
 from data_models.Asset import Asset
 import logging
+import os
 
 class Video(Asset):
     def __init__(self, id: str, description: str, uri: Optional[str] = None, creation_strategy: Optional[dict] = None):
@@ -27,6 +28,24 @@ class Video(Asset):
             if scene_id not in all_ids:
                 raise ValueError(f"Video '{self.id}' references missing scene '{scene_id}'")
             logging.info(f"Video '{self.id}' dependency OK: {scene_id}")
+
+    def get_config(self) -> dict:
+        # return super().get_config()
+        return {"tool": "video_editor"}
+
+    def set_context(self, requirements, config):
+        # return super().set_context(requirements, config)
+        self.requirements = requirements
+        self.config = config
+
+    def generate(self):
+        try:
+            # Try base class logic first (file system retrieval etc.)
+            return super().generate()
+        except (FileNotFoundError, NotImplementedError):
+            # If base class cannot generate, do Video-specific generation
+            sequence = ", ".join(self.sequence) if self.sequence else "No scenes provided"
+            return f"Generated video by combining scenes: {sequence}"
 
     @classmethod
     def load_from_plan(cls, plan: dict) -> List["Video"]:

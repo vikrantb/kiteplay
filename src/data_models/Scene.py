@@ -50,10 +50,6 @@ class Scene(Asset):
         # return super().get_config()
         return {"tool": "scene_composer"}
 
-    def set_context(self, requirements, config):
-        # return super().set_context(requirements, config)
-        self.requirements = requirements
-        self.config = config
 
     def generate(self):
         # return super().generate()

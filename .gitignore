@@ -56,3 +56,15 @@ htmlcov/
 .cache/
 pytest_cache/
 coverage.xml
+
+# ignore sitepackages
+site-packages/
+
+# ignore venv
+venv/
+
+# ignore env
+.env
+
+#ignore .DS_Store
+.DS_Store

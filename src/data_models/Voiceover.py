@@ -31,10 +31,6 @@ class Voiceover(Asset):
         # return super().get_config()
         return {"tool": "tts_engine"}
 
-    def set_context(self, requirements, config):
-        # return super().set_context(requirements, config)
-        self.requirements = requirements
-        self.config = config
 
     def generate(self):
         try:

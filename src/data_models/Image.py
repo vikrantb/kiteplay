@@ -27,11 +27,6 @@ class Image(Asset):
         # If you want to delegate to the base Asset class, use: super().get_config()
         return {"tool": "dalle"}
 
-    def set_context(self, requirements, config):
-        # return super().set_context(requirements, config)
-        # If you want to delegate to the base Asset class, use: super().set_context(requirements, config)
-        self.requirements = requirements
-        self.config = config
 
     def generate(self):
         try:
