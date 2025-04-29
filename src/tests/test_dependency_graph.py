@@ -18,12 +18,23 @@ EXPECTED_ASSET_IDS = [
 VALID_ASSET_TYPES = (Voiceover, Image, Scene, Video)
 
 def test_ordered_assets_structure():
+    """Test that ordered assets list is not empty and is a list.
+
+    This check ensures the function returns a properly structured list of assets,
+    which is critical for downstream processing that expects iterable asset collections.
+    For example, an empty list or wrong type would cause iteration or access errors.
+    """
     plan = load_video_plan_yaml(VIDEO_PLAN_PATH)
     ordered_assets = get_ordered_assets_from_plan(plan)
     assert isinstance(ordered_assets, list), "ordered_assets should be a list"
     assert len(ordered_assets) > 0, "ordered_assets should not be empty"
 
 def test_asset_types():
+    """Test that each asset loaded is of a valid expected type.
+
+    This ensures that parsing and loading from YAML returns objects like Voiceover, Image, etc.
+    For example, we should not get a raw dict or a missing/misclassified object.
+    """
     plan = load_video_plan_yaml(VIDEO_PLAN_PATH)
     ordered_assets = get_ordered_assets_from_plan(plan)
     for asset in ordered_assets:
@@ -31,6 +42,11 @@ def test_asset_types():
         assert isinstance(asset, VALID_ASSET_TYPES), f"Invalid asset type: {type(asset)}"
 
 def test_specific_assets_present():
+    """Test that all expected asset IDs are present and no unexpected assets exist.
+
+    This guarantees the plan contains exactly the assets we expect, no more or less.
+    For example, missing assets would indicate incomplete plans, unexpected assets could indicate errors.
+    """
     plan = load_video_plan_yaml(VIDEO_PLAN_PATH)
     ordered_assets = get_ordered_assets_from_plan(plan)
     asset_ids = [asset.id for asset in ordered_assets]
@@ -41,6 +57,12 @@ def test_specific_assets_present():
         assert asset_id in EXPECTED_ASSET_IDS, f"Unexpected extra asset ID: {asset_id}"
 
 def test_scene_dependencies():
+    """Test that each scene has dependencies and they are strings.
+
+    This ensures scenes correctly declare their dependencies by ID,
+    which is essential for building the dependency graph.
+    For example, a scene without dependencies or with non-string deps would break graph logic.
+    """
     plan = load_video_plan_yaml(VIDEO_PLAN_PATH)
     ordered_assets = get_ordered_assets_from_plan(plan)
     scenes = [a for a in ordered_assets if isinstance(a, Scene)]
@@ -52,6 +74,11 @@ def test_scene_dependencies():
             assert isinstance(dep, str), "Dependency must be a string"
 
 def test_video_sequence_integrity():
+    """Test that each video has a non-empty sequence of scene IDs as strings.
+
+    This confirms videos reference sequences of scenes correctly.
+    For example, an empty or malformed sequence would prevent video assembly.
+    """
     plan = load_video_plan_yaml(VIDEO_PLAN_PATH)
     ordered_assets = get_ordered_assets_from_plan(plan)
     videos = [a for a in ordered_assets if isinstance(a, Video)]
@@ -62,6 +89,11 @@ def test_video_sequence_integrity():
             assert isinstance(scene_id, str), f"Scene ID {scene_id} should be a string"
 
 def test_invalid_asset_type_detection():
+    """Test that an invalid asset type is not recognized as valid.
+
+    This test verifies type safety by ensuring unknown or incorrect asset types are rejected.
+    For example, a random class instance should not be mistaken for a valid asset.
+    """
     class InvalidAsset:
         def __init__(self):
             self.id = "invalid_asset"
@@ -69,6 +101,11 @@ def test_invalid_asset_type_detection():
     assert not isinstance(invalid_asset, VALID_ASSET_TYPES), "Invalid asset type should not be valid"
 
 def test_missing_expected_assets():
+    """Test detection of missing expected asset IDs.
+
+    This simulates a missing asset scenario to check that missing assets are properly identified.
+    For example, if 'calm_silence' is missing, the test should detect it.
+    """
     # Simulate missing assets by removing one expected ID
     missing_id = EXPECTED_ASSET_IDS[0]
     plan = load_video_plan_yaml(VIDEO_PLAN_PATH)
@@ -79,6 +116,11 @@ def test_missing_expected_assets():
 
 # Advanced and thorough tests for deeper asset graph integrity and field-level validation
 def test_voiceover_content_structure():
+    """Test that voiceovers have a non-empty text attribute of type string.
+
+    This ensures voiceovers contain meaningful text content necessary for audio rendering.
+    For example, a voiceover without text or with empty text is invalid.
+    """
     plan = load_video_plan_yaml(VIDEO_PLAN_PATH)
     ordered_assets = get_ordered_assets_from_plan(plan)
     voiceovers = [a for a in ordered_assets if isinstance(a, Voiceover)]
@@ -91,6 +133,12 @@ def test_voiceover_content_structure():
 
 
 def test_image_creation_strategy():
+    """Test that images with a creation strategy have a non-empty prompt string.
+
+    This verifies that images generated via a creation strategy have valid prompts,
+    which are essential for AI generation or similar processes.
+    For example, a missing or empty prompt would cause generation failure.
+    """
     plan = load_video_plan_yaml(VIDEO_PLAN_PATH)
     ordered_assets = get_ordered_assets_from_plan(plan)
     images = [a for a in ordered_assets if isinstance(a, Image)]
@@ -103,6 +151,12 @@ def test_image_creation_strategy():
 
 
 def test_scene_background_and_voiceover_dependencies():
+    """Test that scene background and voiceover dependencies reference valid assets.
+
+    This ensures scenes reference existing images and voiceovers correctly,
+    preventing broken references in the asset graph.
+    For example, a scene background referring to a missing image would cause errors.
+    """
     plan = load_video_plan_yaml(VIDEO_PLAN_PATH)
     ordered_assets = get_ordered_assets_from_plan(plan)
     scenes = [a for a in ordered_assets if isinstance(a, Scene)]
@@ -122,6 +176,12 @@ def test_scene_background_and_voiceover_dependencies():
 
 
 def test_video_unique_scene_sequence():
+    """Test that video sequences reference unique existing scenes unless duplicates are allowed.
+
+    This ensures videos reference valid scenes and avoid unintended duplicates,
+    which could cause logical errors in playback or editing.
+    For example, video_001 should have unique scenes, but video_002 may allow duplicates.
+    """
     plan = load_video_plan_yaml(VIDEO_PLAN_PATH)
     ordered_assets = get_ordered_assets_from_plan(plan)
     scenes = {s.id for s in ordered_assets if isinstance(s, Scene)}
